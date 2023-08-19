@@ -23,7 +23,31 @@ async function createUser(req, res) {
 
 
 }
-
+async function userSignin(req, res) {
+       try {
+              const response = await userService.userSignin({
+                     userName: req.body.userName,
+                     email: req.body.email,
+                     password:req.body.password
+              });
+             // console.log(response);
+              SuccessResponse.data = response;
+              return res
+                     .status(StatusCodes.CREATED)
+                     .json(SuccessResponse);
+       }
+       catch (error) {
+             // console.log(error);
+              ErrorResponse.error = error;
+              return res
+                     .status(error.statusCode)
+                     .json(ErrorResponse);
+       }
+   
+   
+   }
+   
 module.exports={
     createUser,
+    userSignin
 }
