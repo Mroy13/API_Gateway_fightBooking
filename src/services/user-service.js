@@ -12,6 +12,7 @@ async function createUser(data) {
     // console.log(data);
     try {
         const user = await UserRepository.create(data);
+        await UserRepository.addroleTouser(user);
         return user;
     }
     //client side errorHandling

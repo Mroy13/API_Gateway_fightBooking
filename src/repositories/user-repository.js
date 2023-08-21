@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User,Role } = require('../models');
 const crudRepository = require('./crud-repository');
 class userRepository extends crudRepository {
     constructor() {
@@ -11,6 +11,19 @@ class userRepository extends crudRepository {
             });
             return res;
         } catch (error) {
+            throw error;
+        }
+    }
+    async addroleTouser(user){
+        try {
+
+            const role=await Role.findOne({where:{
+                 name:'user'
+            }});
+             const res=await user.addRole(role);
+            // return res;
+        } catch (error) {
+           // console.log(error);
             throw error;
         }
     }
