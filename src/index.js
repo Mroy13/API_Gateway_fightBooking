@@ -35,4 +35,5 @@ const serverConfig = require('./config/server-config');
  app.use('/api',routes);
  app.listen(ServerConfig.PORT,()=>{
    console.log(`server is up at port no ${ServerConfig.PORT}`);
+   
  })

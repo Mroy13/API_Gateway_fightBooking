@@ -73,8 +73,27 @@ async function isAuthenticated(token) {
 }
 
 
+async function checkAdmin(id){
+    try {
+        const res=await UserRepository.checkAdmin(id);
+        if(!res){
+            throw new Apperror("ivalid authorization",StatusCode.UNAUTHORIZED);
+        }
+        return res;
+    } catch (error) {
+        if(error instanceof Apperror){
+            throw error;
+        }
+        else{
+            console.log(error);
+            throw new Apperror("request not resolved due to server side_checkAdminrepo probelem", StatusCode.INTERNAL_SERVER_ERROR);
+        }
+    }
+}
+
 module.exports = {
     createUser,
     userSignin,
-    isAuthenticated
+    isAuthenticated,
+    checkAdmin
 }

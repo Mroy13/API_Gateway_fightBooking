@@ -16,7 +16,7 @@ function validateUser(req, res, next) {
             .status(StatusCodes.BAD_REQUEST)
             .json(ErrorResponse);
     }
-    
+
     next();
 }
 
@@ -47,7 +47,27 @@ async function checkAuth(req, res, next) {
     }
 }
 
+async function isAdmin(req, res, next) {
+    try {
+        const res = await userService.checkAdmin(req.user);
+        if (res) {
+            next();
+        }
+        else {
+           throw error;
+        }
+    }
+    catch (error) {
+    // console.log(error);
+     ErrorResponse.message = error
+     return res
+         .status(StatusCodes.BAD_REQUEST)
+         .json(ErrorResponse);
+    }
+}
+
 module.exports = {
     validateUser,
-    checkAuth
+    checkAuth,
+    isAdmin
 }
