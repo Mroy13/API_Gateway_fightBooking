@@ -1,4 +1,4 @@
-const StatusCode = require('http-status-codes');
+const {StatusCodes}= require('http-status-codes');
 const { userRepository } = require('../repositories');
 const Apperror = require('../utils/error/App-error');
 const { ServerConfig } = require('../config');
@@ -24,11 +24,11 @@ async function createUser(data) {
                 explanation.push(err.message);
             });
 
-            throw new Apperror(explanation, StatusCode.BAD_REQUEST);
+            throw new Apperror(explanation, StatusCodes.BAD_REQUEST);
         }
         //server side error handling
         else {
-            throw new Apperror("request not resolved due to server side probelem", StatusCode.INTERNAL_SERVER_ERROR);
+            throw new Apperror("request not resolved due to server side probelem", StatusCodes.INTERNAL_SERVER_ERROR);
         }
     }
 }
@@ -38,11 +38,11 @@ async function userSignin(data) {
         const userData = await UserRepository.findUser(data.email);
         // console.log(userData);
         if (!userData) {
-            throw new Apperror("[user not found]", StatusCode.NOT_FOUND);
+            throw new Apperror("[user not found]", StatusCodes.NOT_FOUND);
         }
         const res = bcrypt.compareSync(data.password, userData.password);
         if (!res) {
-            throw new Apperror("[invalid password]", StatusCode.UNAUTHORIZED);
+            throw new Apperror("[invalid password]", StatusCodes.UNAUTHORIZED);
         }
         //data.id=userData.id;
         // const jwtToken= createJwttoken(data,ServerConfig.SECRET_KEY); 
@@ -61,7 +61,7 @@ async function isAuthenticated(token) {
         if (res) {
             const user = await UserRepository.get(res.data.id);
             if (!user) {
-                throw new Apperror("user not found", StatusCode.BAD_REQUEST);
+                throw new Apperror("user not found", StatusCodes.BAD_REQUEST);
             }
             return user.id;
         }
@@ -77,7 +77,7 @@ async function checkAdmin(id){
     try {
         const res=await UserRepository.checkAdmin(id);
         if(!res){
-            throw new Apperror("ivalid authorization",StatusCode.UNAUTHORIZED);
+            throw new Apperror("ivalid authorization",StatusCodes.UNAUTHORIZED);
         }
         return res;
     } catch (error) {
@@ -86,7 +86,7 @@ async function checkAdmin(id){
         }
         else{
             console.log(error);
-            throw new Apperror("request not resolved due to server side_checkAdminrepo probelem", StatusCode.INTERNAL_SERVER_ERROR);
+            throw new Apperror("request not resolved due to server side_checkAdminrepo probelem", StatusCodes.INTERNAL_SERVER_ERROR);
         }
     }
 }

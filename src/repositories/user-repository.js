@@ -1,7 +1,7 @@
 const { User,Role } = require('../models');
 const crudRepository = require('./crud-repository');
 const Apperror = require('../utils/error/App-error');
-const StatusCode = require('http-status-codes');
+const {StatusCodes} = require('http-status-codes');
 class userRepository extends crudRepository {
     constructor() {
         super(User);

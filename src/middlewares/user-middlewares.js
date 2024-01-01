@@ -61,7 +61,7 @@ async function isAdmin(req, res, next) {
     // console.log(error);
      ErrorResponse.message = error
      return res
-         .status(StatusCodes.BAD_REQUEST)
+         .status(StatusCodes.UNAUTHORIZED)
          .json(ErrorResponse);
     }
 }
